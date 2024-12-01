@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="94a8ac2a-5ab5-44c0-864b-d86db192c290" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/.vs/AdventOfCode2024/FileContentIndex/cdeaa63c-e396-41d6-bbbf-f8aff679b8d2.vsidx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/.vs/AdventOfCode2024/v17/.suo" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/.vs/AdventOfCode2024/v17/DocumentLayout.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/AdventOfCode2024.sln" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/Testbed/App.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/Testbed/Program.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/Testbed/Properties/AssemblyInfo.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/Testbed/Testbed.csproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/Testbed/obj/Debug/.NETFramework,Version=v4.7.2.AssemblyAttributes.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/Testbed/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/AdventOfCode2024/Testbed/obj/Debug/Testbed.csproj.AssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Day1/Part1.cs" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "PointlessParrot"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/PointlessParrot/AdventOfCode2024.git",
+    "accountId": "7e497e2b-5c5c-4467-8857-f6bcf7733513"
+  }
+}]]></component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="2pbcv1WdsHEjw8wmD0V7Ck1MLcV" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="94a8ac2a-5ab5-44c0-864b-d86db192c290" name="Changes" comment="" />
+      <created>1733038445456</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1733038445456</updated>
+      <workItem from="1733038446429" duration="196000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+</project>
