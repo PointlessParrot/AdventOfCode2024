@@ -17,14 +17,13 @@ namespace AOC_Utilities
             Width = width;
             Data = new T[height, width];
         }
-
-        public Grid(T[,] data)
+        public Grid(T[,] input)
         {
-            Height = data.GetLength(0);
-            Width = data.GetLength(1);
-            Data = data;
+            Height = input.GetLength(0);
+            Width = input.GetLength(1);
+            Data = input;
         }
-        
+
         public T this[int a, int b]
         {
             get => Data[a, b];
@@ -48,7 +47,15 @@ namespace AOC_Utilities
     {
         public CharGrid(int height, int width) : base(height, width) {}
         public CharGrid(char[,] data) : base(data) {}
-        public CharGrid(string[] lines) : base(lines.Select(x => x.ToCharArray()).ToArray()) {}
+        public CharGrid(string[] lines) : base(1, 1)
+        {
+            Data = new char[lines.Length,lines.Select(x => x.Length).Max()];
+            Width = Data.
+            lines.Select(x => x.PadRight(Data.GetLength(1)));
+            for (int i = 0; i < Data.GetLength(0); i++)
+                for (int j = 0; j < Data.GetLength(1); j++)
+                    Data[i, j] = lines[i][j];
+        }
         
     }
     
