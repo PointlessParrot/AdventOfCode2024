@@ -22,10 +22,11 @@ namespace Day6B
         static void TurnRight(ref (int, int) direction) =>
             direction = direction.Item1 == 0 ? (direction.Item2, 0) : (0, -direction.Item1);
 
-        static bool TryMoveForwards(char[,] grid, ref (int, int) location, (int, int) direction, int[,] visited)
+        static bool TryMoveForwards(char[,] grid, ref (int, int) location, (int, int) direction, List<((int, int), (int, int))> visited, ref bool duplicate)
         {
             grid[location.Item1, location.Item2] = '.';
-            visited[location.Item1, location.Item2] = 1;
+            if (visited.Contains((location, direction))) duplicate = true;
+            visited.Add((location, direction));
             location = (location.Item1 + direction.Item1, location.Item2 + direction.Item2);
             try
             {
@@ -39,19 +40,11 @@ namespace Day6B
             return true;
         }
 
-        static void CheckLoop(char[,] grid, ref (int, int) location, (int, int) direction, 
-            int[,] visited, int[,] blocked)
+        static List<((int, int), (int, int))> FindPath(char[,] grid, (int, int) location, (int, int) direction)
         {
-            if (visited[location.Item1, location.Item2] == 0) return;
-            blocked[location.Item1 + direction, location.Item2 + direction] = 1;
-        }
+            List<((int, int), (int, int))> visited = new List<((int, int), (int, int))>();
+            bool duplicate = false;
 
-        static int[,] FindPath(char[,] grid, (int, int) location, (int, int) direction)
-        {
-            int[,] visited = new int[grid.GetLength(0), grid.GetLength(1)];
-
-            int[,] blocked = new int[grid.GetLength(0), grid.GetLength(1)];
-            
             while (true)
             {
                 while (true)
@@ -62,10 +55,10 @@ namespace Day6B
                     TurnRight(ref direction);
                 }
 
-                if (!TryMoveForwards(grid, ref location, direction, visited)) break;
+                if (!TryMoveForwards(grid, ref location, direction, visited, ref duplicate)) break;
             }
 
-            return blocked;
+            return visited;
         }
 
         static char[,] GetGrid(string[] lines)
@@ -78,7 +71,7 @@ namespace Day6B
             return grid;
         }
 
-        static bool TryFindElement(char[,] grid, char target, ref (int, int) location)
+        static bool TryFindElement(char[,] grid, char target, out (int, int) location)
         {
             for (int i = 0; i < grid.GetLength(0); i++)
                 for (int j = 0; j < grid.GetLength(1); j++)
@@ -102,6 +95,50 @@ namespace Day6B
             return total;
         }
 
+        static bool LoopCheck(char[,] grid, (int, int) location, (int, int) direction)
+        {
+            List<((int, int), (int, int))> visited = new List<((int, int), (int, int))>();
+            bool duplicate  = false;
+            
+            while (true)
+            {
+                if (duplicate) return true;
+                while (true)
+                {
+                    //WriteGrid(grid);
+                    bool result = CheckMove(grid, location, direction) ?? true;
+                    if (result) break;
+                    TurnRight(ref direction);
+                }
+            
+                if (!TryMoveForwards(grid, ref location, direction, visited, ref duplicate)) break;
+            }
+            return false;
+        }
+        
+        static int[,] FindLoops(char[,] grid, (int, int) location, (int, int) direction, List<((int, int), (int, int))> visited)
+        {
+            int[,] blocked = new int[grid.GetLength(0), grid.GetLength(1)];
+            foreach (((int, int), (int, int)) item in visited)
+            {
+                int y = item.Item1.Item1 + item.Item2.Item1;
+                int x = item.Item1.Item2 + item.Item2.Item2;
+                try
+                {
+                    if (grid[y, x] == '#') continue;
+                    grid[y, x] = '#'; 
+                    if(LoopCheck(grid, location, direction)) blocked[y, x] = 1;
+                    grid[y, x] = '.'; 
+
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    //Do nothing
+                }
+            }
+            return blocked;
+        }
+        
         static void Main(string[] args)
         {
 
@@ -110,16 +147,19 @@ namespace Day6B
             (int, int) location = (-1, -1);
             (int, int) direction = (-1, 0);
             foreach (char target in new[] { '^', '>', 'v', '<' })
-                if (TryFindElement(grid, target, ref location))
+                if (TryFindElement(grid, target, out location))
                 {
                     int value = Array.IndexOf(new[] { '^', '>', 'v', '<' }, target);
                     for (int i = 0; i < value; i++) TurnRight(ref direction);
                     break;
                 }
 
-            int[,] blocked = FindPath(grid, location, direction);
+            List<((int, int), (int, int))> visited = FindPath(grid, location, direction);
+            
+            int[,] blocked = FindLoops(grid, location, direction, visited);
             int total = SumGrid(blocked);
 
+            WriteGrid(blocked);
             Console.WriteLine(total);
         }
 
