@@ -17,13 +17,14 @@ namespace AOC_Utilities
             Width = width;
             Data = new T[height, width];
         }
-        public Grid(T[,] input)
-        {
-            Height = input.GetLength(0);
-            Width = input.GetLength(1);
-            Data = input;
-        }
 
+        public Grid(T[,] data)
+        {
+            Height = data.GetLength(0);
+            Width = data.GetLength(1);
+            Data = data;
+        }
+        
         public T this[int a, int b]
         {
             get => Data[a, b];
@@ -47,20 +48,48 @@ namespace AOC_Utilities
     {
         public CharGrid(int height, int width) : base(height, width) {}
         public CharGrid(char[,] data) : base(data) {}
-        public CharGrid(string[] lines) : base(1, 1)
-        {
-            Data = new char[lines.Length,lines.Select(x => x.Length).Max()];
-            Width = Data.
-            lines.Select(x => x.PadRight(Data.GetLength(1)));
-            for (int i = 0; i < Data.GetLength(0); i++)
-                for (int j = 0; j < Data.GetLength(1); j++)
-                    Data[i, j] = lines[i][j];
-        }
         
     }
     
     internal class Utilities
     {
+        public struct Binary()
+        {
+            string _binaryData;
+
+            public Binary(string binaryString) : this()
+            {
+                _binaryData = binaryString;
+            }
+
+            public static implicit operator Binary(int number)
+            {
+                string binaryString = string.Empty;
+                int value = (int)Math.Log2(number) + 1;
+                for (int i = 0; i < value; i++)
+                {
+                    binaryString = number % 2 + binaryString;
+                    number /= 2;
+                }   
+                return new Binary(binaryString);
+            }
+
+            public static explicit operator int(Binary binary)
+            {
+                int length = binary._binaryData.Length;
+                return binary._binaryData.Select((x, i) => (int)x * (int)Math.Pow(2, length - i)).Sum();
+            }
+            
+            public static explicit operator string(Binary binary) => binary._binaryData;
+
+            public static Binary operator ++(Binary binary)
+            {
+                int length = binary._binaryData.Length;
+                int index = binary._binaryData.LastIndexOf('0');
+                string binaryString = binary._binaryData.Substring(0, index) + '1' + new String('0', length - index - 1);
+                return new Binary(binaryString);
+            }
+        }
         static void Main(string[] args)
         {
             Grid<int> grid = new Grid<int>(4, 4);

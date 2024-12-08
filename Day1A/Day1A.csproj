@@ -13,8 +13,4 @@
       </None>
     </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\AOC_Utilities\AOC_Utilities.csproj" />
-    </ItemGroup>
-
 </Project>
