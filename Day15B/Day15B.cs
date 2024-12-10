@@ -1,11 +1,8 @@
 ﻿// ReSharper disable FieldCanBeMadeReadOnly.Local
 
-using System.Numerics;
-using System.Runtime.InteropServices.JavaScript;
-
-namespace DayXY
+namespace Day15B
 {
-    internal class Program
+    internal class Day15B
     {
         static void Main(string[] args)
         {
