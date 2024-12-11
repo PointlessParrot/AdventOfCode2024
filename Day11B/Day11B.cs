@@ -1,12 +1,35 @@
 ﻿// ReSharper disable FieldCanBeMadeReadOnly.Local
 
 using System.Collections.Concurrent;
+using System.Runtime.Caching;
 
 namespace Day11A
 {
+    public class ResultCache
+    {
+        static MemoryCache cache = MemoryCache.Default;
+
+        public static bool TryGetData(string key, out string[] values)
+        {
+            if (cache.Contains(key))
+            {
+                values = (string[])cache.Get(key);
+                return true;
+            }
+            
+            values = new string[0];
+            return false;
+        }
+
+        public static void Add(string key, string[] values)
+        {
+            cache.Add(new CacheItem(key, values), null);
+        }
+    }
+    
     internal class Day11A
     {
-        static bool StoneCheck(List<string> stones, int index, ConcurrentDictionary<string, string[]> cache)
+        static bool StoneCheck(List<string> stones, int index)
         {
             string stone = stones[index];
             if (stone == "0")
@@ -15,7 +38,7 @@ namespace Day11A
                 return false;
             }
 
-            if (cache.TryGetValue(stone, out string[] values))
+            if (ResultCache.TryGetData(stone, out string[] values))
             { 
                 stones[index] = values[0];
                 if (values.Length == 1) return false;
@@ -29,21 +52,21 @@ namespace Day11A
                 stones[index] = stone.Substring(len).TrimStart();
                 stones.Insert(index, stone.Substring(0, len));
 
-                cache.TryAdd(stone, new[] { stones[index], stones[index + 1] });
+                ResultCache.Add(stone, new[] { stones[index], stones[index + 1] });
                 return true;
             }
             
             stones[index] = (long.Parse(stone) * 2024).ToString();
             
-            cache.TryAdd(stone, new[] { stones[index] });
+            ResultCache.Add(stone, new[] { stones[index] });
             return false;
         }
         
-        static void Blink(List<string> stones, ConcurrentDictionary<string, string[]> cache)
+        static void Blink(List<string> stones)
         {
             for (int i = 0; i < stones.Count; i++)
             {
-                if (StoneCheck(stones, i, cache)) i++;
+                if (StoneCheck(stones, i)) i++;
             }
         }
         
@@ -51,12 +74,11 @@ namespace Day11A
         {
             string[] lines = System.IO.File.ReadAllLines("input.txt");
             List<string> stones = lines[0].Split(' ').ToList();
-            ConcurrentDictionary<string, string[]> cache = new ConcurrentDictionary<string, string[]>();
             int iterations = 75;
 
             for (int i = 0; i < iterations; i++)
             {
-                Blink(stones, cache);
+                Blink(stones);
                 Console.WriteLine(i + 1);
             }
 
