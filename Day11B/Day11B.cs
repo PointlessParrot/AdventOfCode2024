@@ -9,80 +9,64 @@ namespace Day11A
     {
         static MemoryCache cache = MemoryCache.Default;
 
-        public static bool TryGetData(string key, out string[] values)
+        public static bool TryGetData(string stone, int iterationsRemaining, out long count)
         {
+            string key = stone + "|" + iterationsRemaining;
             if (cache.Contains(key))
             {
-                values = (string[])cache.Get(key);
+                count = (long)cache.Get(key);
                 return true;
             }
-            
-            values = new string[0];
+
+            count = -1;
             return false;
         }
 
-        public static void Add(string key, string[] values)
+        public static void Add(string stone, int iterationsRemaining, long count)
         {
-            cache.Add(new CacheItem(key, values), null);
+            string key = stone + "|" + iterationsRemaining;
+            cache.Add(new CacheItem(key, count), null);
         }
     }
     
     internal class Day11A
     {
-        static bool StoneCheck(List<string> stones, int index)
+        static long IterateAndCount(string stoneInput, int iterationsRemaining)
         {
-            string stone = stones[index];
-            if (stone == "0")
-            {
-                stones[index] = "1";
-                return false;
-            }
+            if (iterationsRemaining == 0)
+                return 1;
+            
+            if (ResultCache.TryGetData(stoneInput, iterationsRemaining, out long count))
+                return count;
 
-            if (ResultCache.TryGetData(stone, out string[] values))
-            { 
-                stones[index] = values[0];
-                if (values.Length == 1) return false;
-                stones.Insert(index + 1, values[1]);
-                return true;
-            }
+            iterationsRemaining--;
+            long ans;
+            int l = stoneInput.Length;
             
-            if (stone.Length % 2 == 0)
-            {
-                int len = stone.Length / 2;
-                stones[index] = stone.Substring(len).TrimStart();
-                stones.Insert(index, stone.Substring(0, len));
+            if (stoneInput == "0" || stoneInput == "")
+                ans = IterateAndCount("1", iterationsRemaining);
+            
+            else if (l % 2 == 0)
+                ans = IterateAndCount(stoneInput.Substring(0, l/2), iterationsRemaining) 
+                       + IterateAndCount(stoneInput.Substring(l/2).TrimStart('0'), iterationsRemaining);
 
-                ResultCache.Add(stone, new[] { stones[index], stones[index + 1] });
-                return true;
-            }
+            else 
+                ans = IterateAndCount((long.Parse(stoneInput) * 2024).ToString(), iterationsRemaining);
             
-            stones[index] = (long.Parse(stone) * 2024).ToString();
-            
-            ResultCache.Add(stone, new[] { stones[index] });
-            return false;
+            ResultCache.Add(stoneInput, iterationsRemaining + 1, ans);
+            return ans;
         }
-        
-        static void Blink(List<string> stones)
-        {
-            for (int i = 0; i < stones.Count; i++)
-            {
-                if (StoneCheck(stones, i)) i++;
-            }
-        }
+
+        static long CalculateCount(string[] stones, int iterations) => stones.Sum(stone => IterateAndCount(stone, iterations));
         
         static void Main(string[] args)
         {
             string[] lines = System.IO.File.ReadAllLines("input.txt");
-            List<string> stones = lines[0].Split(' ').ToList();
-            int iterations = 75;
-
-            for (int i = 0; i < iterations; i++)
-            {
-                Blink(stones);
-                Console.WriteLine(i + 1);
-            }
-
-            Console.WriteLine(stones.Count);
+            string[] stones = lines[0].Split(' ').ToArray();
+            
+            long total = CalculateCount(stones, 75);
+            
+            Console.WriteLine(total);
         }
     }
 }
