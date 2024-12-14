@@ -64,7 +64,7 @@ namespace Day11A
             string[] lines = System.IO.File.ReadAllLines("input.txt");
             string[] stones = lines[0].Split(' ').ToArray();
             
-            long total = CalculateCount(stones, 75);
+            long total = CalculateCount(stones, 100);
             
             Console.WriteLine(total);
         }
